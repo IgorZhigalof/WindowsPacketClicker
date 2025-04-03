@@ -1,27 +1,29 @@
 from window import Window
 import time
 
+
 class BetterWindow(Window):
-    mouse_delay = 0
-    write_delay = 0
-    press_delay = 0
+    mouseDelay = 0
+    writeDelay = 0
+    pressDelay = 0
 
     def __init__(self, hwnd, write_delay=0, mouse_delay=0, press_delay=0):
-        self.write_delay = write_delay
+        self.writeDelay = write_delay
         self.left_click_delay = mouse_delay
-        self.press_delay = press_delay
+        self.pressDelay = press_delay
         super().__init__(hwnd)
 
-    def holdKey(self, key, tme):
+    def holdKey(self, key, holdTime):
         """The time parameter represents 100 milliseconds per unit."""
-        for i in range(tme):
-            self.key_down(key)
+        for i in range(holdTime):
+            self.keyDown(key)
             time.sleep(0.1)
-        self.key_up(key)
+        self.keyUp(key)
 
-    def holdLeftClick(self, tme, x, y):
-        for i in range(tme):
-            self.left_click_at(x, y)
+    def holdLeftClick(self, holdTime, x, y):
+        """The time parameter represents 100 milliseconds per unit."""
+        for i in range(holdTime):
+            self.leftClickAt(x, y)
             time.sleep(0.1)
 
     def fastPressKey(self, char: str):
@@ -31,10 +33,10 @@ class BetterWindow(Window):
                                   self._scancodes[char.upper()],
                                   l_param
                                   )
-        time.sleep(self.press_delay)
+        time.sleep(self.pressDelay)
 
     def writeText(self, text: str):
         for chr in text:
             self.sendChar(chr)
-            time.sleep(self.write_delay)
+            time.sleep(self.writeDelay)
 
